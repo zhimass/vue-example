@@ -1,0 +1,163 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <!-- <link rel="stylesheet" type="text/css" href="https://cdn.bootcss.com/bootstrap/3.3.5/css/bootstrap.min.css"> -->
+    <link rel="stylesheet" href="src/resources/css/common.css">
+    <link rel="stylesheet" href="src/resources/css/tab.css">
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+
+    <!-- 生产环境版本，优化了尺寸和速度 -->
+    <script src="https://cdn.jsdelivr.net/npm/vue"></script>
+    <title>极客中心-Geekhub</title>
+</head>
+<body>
+    <div id="geekhub" style="height:100%">
+        <div id="tab">
+            <div class="tab-tit">
+                <!-- 点击设置curId的值，如果curId等于0，第一个a添加cur类名，如果cur等于1，第二个a添加cur类名 -->
+                <a href="javascript:;" @click="curId=0" :class="{'cur':curId===0}">哲学</a>
+                <a href="javascript:;" @click="curId=1" :class="{'cur':curId===1}">小说</a>
+                <a href="javascript:;" @click="curId=2" :class="{'cur':curId===2}">自传</a>
+            </div>
+            <div class="tab-con"> 
+                <!--根据curId的值显示div,如果curId等于0，第一个div显示，其它三个div不显示。如果curId等于1，第二个div显示，其它三个div不显示。以此类推-->
+                <!-- <div v-show="curId===0">
+                    
+                </div>
+                <div v-show="curId===1">
+                    
+                </div>
+                <div v-show="curId===2">
+                    
+                </div> -->
+            </div>
+        </div>
+        <div id="content">
+                <table class="table table-hover" v-cloak>
+                        <thead>
+                          <tr>
+                            <th class="text-right" @click="sortBy('id')">序号</th>
+                            <th class="text-right" @click="sortBy('name')">书名</th>                           
+                            <th class="text-right" @click="sortBy('author')">作者</th>                             
+                            <th class="text-right" @click="sortBy('price')">价格</th>                             
+                            <th class="text-right" >操作</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          <tr v-for="book in books">
+                            <td class="text-right">{{book.id}}</td>
+                            <td class="text-right">{{book.name}}</td>
+                            <td class="text-right">{{book.author}}</td>
+                            <td class="text-right">{{book.price}}</td>
+                            <template v-if="book.id%2==0">
+                                <td class="text-right">
+                                    <button type="button" class="btn btn-success" @click="delBook(book)">删除</button>
+                                </td>
+                            </template>
+                            <template v-else>
+                                 <td class="text-right">
+                                    <button type="button" class="btn btn-danger" @click="delBook(book)">删除</button>     
+                                 </td>
+                            </template>
+                          </tr>
+                          <tr>
+                            <td class="text-right" colspan="5">
+                              <h4>总价：{{sum}}</h4>
+                            </td>
+                          </tr>
+                        </tbody>
+                      </table>
+                      <div id="add-book">
+                            <legend>添加书籍</legend>
+                            <div class="form-group">
+                              <label>书名</label>
+                              <input type="text" class='form-control' v-model="book.name">
+                            </div>
+                             <div class="form-group">
+                              <label>作者</label>
+                              <input type="text" class='form-control' v-model="book.author">
+                            </div>
+                             <div class="form-group">
+                              <label>价格</label>
+                              <input type="text" class='form-control' v-model="book.price">
+                            </div>
+                             <button class="btn btn-primary btn-block" @click="addBook()">添加</button>
+                        </div>
+        </div>
+        
+        <router-view></router-view>
+    </div>
+</body>
+<!-- <script src="src/index.js" type="module"></script> -->
+<script>
+    let tab = new Vue({
+        el: '#tab',
+        data: {
+            curId: 0
+        },
+        computed: {},
+        methods: {},
+        mounted: function () {
+        }
+    });
+    let content = new Vue({
+        el: "#content",
+        data: {
+            sortparam:'',
+            book:{
+                id:0,
+                author:'',
+                name:'',
+                price:''
+            },
+        books: [{
+                    id: 1,
+                    author: '曹雪芹',
+                    name: '红楼梦',
+                    price: 32.0
+                }, {
+                    id: 2,
+                    author: '施耐庵',
+                    name: '水浒传',
+                    price: 30.0
+                }, {
+                    id: '3',
+                    author: '罗贯中',
+                    name: '三国演义',
+                    price: 24.0
+                }, {
+                    id: 4,
+                    author: '吴承恩',
+                    name: '西游记',
+                    price: 20.0
+                }]
+        },
+        computed:{
+            sum:function(){
+                var result = 0;
+                for (var i=0;i<this.books.length;i++){
+                result += Number(this.books[i].price);
+                }
+                return result;
+            }
+        },
+        methods:{
+            addBook:function(){
+                this.book.id = this.books.length +1;
+                this.books.push(this.book);
+                this.book = '';
+            },
+            delBook:function(book){ 
+                this.books.$remove(book);
+            },
+            sortBy:function(sortparam){
+                this.sortparam = sortparam;
+            }
+        }
+    });
+</script>
+</html>

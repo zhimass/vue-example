@@ -1,0 +1,47 @@
+#tab{
+    width: 960px;
+    margin: 0 auto;
+}
+.tab-tit{
+    font-size: 0;
+    width: 960px;
+    background-color: #ccc;
+}
+.tab-tit a{
+    display: inline-block;
+    height: 40px;
+    line-height: 40px;
+    font-size: 16px;
+    width: 33%;
+    text-align: center;
+    background: #ccc;
+    color: #333;
+    text-decoration: none;
+}
+.tab-tit .cur{
+    background: #09f;
+    color: #fff;
+}
+.tab-con div{
+    height: 400px;
+    width: 100%;
+    background-color: rgb(252, 8, 8);
+}
+#content {
+    width: 960px;
+    margin: 0 auto;
+}
+table {
+    width: 100%;
+    margin-top: 30px;
+}
+.text-right {
+    width: 20%;
+    text-align: center;
+}
+#add-book div{
+    margin: 10px 5px;
+}
+.form-group {
+    display: inline-block;
+}
